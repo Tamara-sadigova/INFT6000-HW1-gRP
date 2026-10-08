@@ -8,6 +8,7 @@ service TextbookRentalService {
   rpc SearchBooks (SearchRequest) returns (SearchResponse);
   rpc RentBook (RentRequest) returns (RentResponse);
   rpc ReturnBook (ReturnRequest) returns (ReturnResponse);
+    rpc ListRentals (StudentRequest) returns (RentalListResponse);
 }
 
 // Request and Response definitions
@@ -62,4 +63,22 @@ message ReturnRequest {
 message ReturnResponse {
   bool success = 1;
   string message = 2;
+}
+
+message StudentRequest {
+  string student_id = 1;
+}
+
+message RentalInfo {
+  string rental_id = 1;
+  string student_id = 2;
+  string isbn = 3;
+  int32 days = 4;
+  double total_price = 5;
+  string status = 6;
+  string due_date = 7;
+}
+
+message RentalListResponse {
+  repeated RentalInfo rentals = 1;
 }

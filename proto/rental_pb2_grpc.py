@@ -59,6 +59,11 @@ class TextbookRentalServiceStub:
                 request_serializer=proto_dot_rental__pb2.ReturnRequest.SerializeToString,
                 response_deserializer=proto_dot_rental__pb2.ReturnResponse.FromString,
                 _registered_method=True)
+        self.ListRentals = channel.unary_unary(
+                '/rental.TextbookRentalService/ListRentals',
+                request_serializer=proto_dot_rental__pb2.StudentRequest.SerializeToString,
+                response_deserializer=proto_dot_rental__pb2.RentalListResponse.FromString,
+                _registered_method=True)
 
 
 class TextbookRentalServiceServicer:
@@ -94,6 +99,12 @@ class TextbookRentalServiceServicer:
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def ListRentals(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_TextbookRentalServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -121,6 +132,11 @@ def add_TextbookRentalServiceServicer_to_server(servicer, server):
                     servicer.ReturnBook,
                     request_deserializer=proto_dot_rental__pb2.ReturnRequest.FromString,
                     response_serializer=proto_dot_rental__pb2.ReturnResponse.SerializeToString,
+            ),
+            'ListRentals': grpc.unary_unary_rpc_method_handler(
+                    servicer.ListRentals,
+                    request_deserializer=proto_dot_rental__pb2.StudentRequest.FromString,
+                    response_serializer=proto_dot_rental__pb2.RentalListResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -258,6 +274,33 @@ class TextbookRentalService:
             '/rental.TextbookRentalService/ReturnBook',
             proto_dot_rental__pb2.ReturnRequest.SerializeToString,
             proto_dot_rental__pb2.ReturnResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def ListRentals(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/rental.TextbookRentalService/ListRentals',
+            proto_dot_rental__pb2.StudentRequest.SerializeToString,
+            proto_dot_rental__pb2.RentalListResponse.FromString,
             options,
             channel_credentials,
             insecure,

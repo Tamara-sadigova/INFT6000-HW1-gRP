@@ -102,6 +102,21 @@ class TextbookRentalServicer(pb2_grpc.TextbookRentalServiceServicer):
                 message=str(e),
             )
 
+    def ListRentals(self, request, context):
+        rentals = self.rental_manager.get_student_rentals(request.student_id)
+        infos = [
+            pb2.RentalInfo(
+                rental_id=r.rental_id,
+                student_id=r.student_id,
+                isbn=r.isbn,
+                days=r.days,
+                total_price=r.total_price,
+                status=r.status.value,
+                due_date=r.due_date.strftime("%Y-%m-%d"),
+            )
+            for r in rentals
+        ]
+        return pb2.RentalListResponse(rentals=infos)
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
